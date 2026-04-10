@@ -68,9 +68,7 @@
     outline: none;
     transition: border-color 0.2s;
   }
-  input[type="email"]:focus {
-    border-color: #3ecfb4;
-  }
+  input[type="email"]:focus { border-color: #3ecfb4; }
   input[type="email"]::placeholder { color: #555; }
   button {
     padding: 0.85rem 1.6rem;
@@ -99,7 +97,6 @@
     font-size: 0.8rem;
     line-height: 1.5;
   }
-  .footer a { color: #8b8fa3; text-decoration: none; }
   .meta {
     margin-top: 3rem;
     padding-top: 1.5rem;
@@ -122,7 +119,7 @@
     A 2-hour workshop by <strong>Ray Han</strong>.
   </p>
 
-  <form id="gate-form" action="/api/collect" method="POST">
+  <form id="gate-form">
     <input type="email" name="email" placeholder="your@email.com" required autocomplete="email">
     <button type="submit">View Slides</button>
   </form>
@@ -143,6 +140,24 @@
 </div>
 
 <script>
+// ============================================================
+// Google Sheets webhook URL
+// Replace this with your Google Apps Script web app URL.
+// To set up:
+//   1. Create a Google Sheet
+//   2. Extensions → Apps Script
+//   3. Paste:
+//        function doPost(e) {
+//          var data = JSON.parse(e.postData.contents);
+//          var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+//          sheet.appendRow([data.email, new Date().toISOString()]);
+//          return ContentService.createTextOutput('ok');
+//        }
+//   4. Deploy → New Deployment → Web App → Anyone can access
+//   5. Copy the URL and paste below
+// ============================================================
+const GOOGLE_SHEETS_WEBHOOK = '';  // ← YOUR URL HERE
+
 document.getElementById('gate-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const form = e.target;
@@ -154,27 +169,24 @@ document.getElementById('gate-form').addEventListener('submit', async (e) => {
   btn.textContent = 'Loading...';
   errEl.style.display = 'none';
 
-  try {
-    const res = await fetch('/api/collect', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    });
-    if (res.ok) {
-      window.location.href = '/deck';
-    } else {
-      const data = await res.json().catch(() => ({}));
-      errEl.textContent = data.error || 'Something went wrong. Please try again.';
-      errEl.style.display = 'block';
-      btn.disabled = false;
-      btn.textContent = 'View Slides';
+  // Send to Google Sheets (fire-and-forget if webhook is configured)
+  if (GOOGLE_SHEETS_WEBHOOK) {
+    try {
+      fetch(GOOGLE_SHEETS_WEBHOOK, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+    } catch {
+      // Don't block access if the webhook fails
     }
-  } catch {
-    errEl.textContent = 'Network error. Please try again.';
-    errEl.style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = 'View Slides';
   }
+
+  // Grant access via localStorage and redirect to deck
+  localStorage.setItem('workshop_email', email);
+  localStorage.setItem('workshop_access', '1');
+  window.location.href = 'deck/';
 });
 </script>
 
