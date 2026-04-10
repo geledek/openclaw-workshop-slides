@@ -169,14 +169,16 @@ document.getElementById('gate-form').addEventListener('submit', async (e) => {
   btn.textContent = 'Loading...';
   errEl.style.display = 'none';
 
-  // Send to Google Sheets (fire-and-forget if webhook is configured)
+  // Send to Google Sheets via form-encoded POST (works with no-cors)
   if (GOOGLE_SHEETS_WEBHOOK) {
     try {
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('timestamp', new Date().toISOString());
       fetch(GOOGLE_SHEETS_WEBHOOK, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
+        body: formData
       });
     } catch {
       // Don't block access if the webhook fails
