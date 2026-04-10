@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your First AI Agent — Workshop Slides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg-card: #1a1d27;
+    --bg-card-alt: #161922;
+    --text: #e8e9ed;
+    --text-dim: #8b8fa3;
+    --accent: #3ecfb4;
+    --accent-dim: rgba(62,207,180,0.15);
+    --accent2: #e8a44a;
+    --accent2-dim: rgba(232,164,74,0.12);
+    --danger: #e85a5a;
+    --danger-dim: rgba(232,90,90,0.12);
+    --success: #3ecfb4;
+    --font: 'Inter', -apple-system, sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .deck { position: relative; width: 100vw; height: 100vh; }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6vh 8vw;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.45s ease;
+  }
+  .slide.active { opacity: 1; pointer-events: auto; }
+
+  /* Progress bar */
+  .progress {
+    position: fixed; bottom: 0; left: 0; height: 3px;
+    background: var(--accent);
+    transition: width 0.4s ease;
+    z-index: 100;
+  }
+  .slide-counter {
+    position: fixed; bottom: 16px; right: 32px;
+    font-family: var(--mono); font-size: 13px;
+    color: var(--text-dim); z-index: 100;
+  }
+
+  /* Typography */
+  h1 { font-size: clamp(2.4rem, 5vw, 4.2rem); font-weight: 800; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 1.2rem; }
+  h2 { font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.015em; margin-bottom: 1rem; }
+  h3 { font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 600; line-height: 1.3; margin-bottom: 0.8rem; }
+  p, li { font-size: clamp(1rem, 1.6vw, 1.25rem); line-height: 1.65; color: var(--text-dim); }
+  .big-text { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 600; line-height: 1.4; color: var(--text); }
+  .accent { color: var(--accent); }
+  .accent2 { color: var(--accent2); }
+  .danger { color: var(--danger); }
+  .dim { color: var(--text-dim); }
+  .mono { font-family: var(--mono); }
+  .small { font-size: 0.85rem; }
+
+  /* Quote */
+  blockquote {
+    border-left: 3px solid var(--accent);
+    padding: 0.8rem 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: var(--text);
+    font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+  }
+  blockquote .attr { font-style: normal; color: var(--text-dim); font-size: 0.9rem; margin-top: 0.5rem; }
+
+  /* Cards & grids */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 1.5rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; margin-top: 1.5rem; }
+  .grid-5 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: 1.2rem; margin-top: 1.5rem; }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 1.8rem;
+  }
+  .card h3 { margin-bottom: 0.5rem; }
+  .card-accent { border-left: 3px solid var(--accent); }
+  .card-danger { border-left: 3px solid var(--danger); }
+  .card-amber { border-left: 3px solid var(--accent2); }
+
+  /* Comparison table */
+  .compare-table {
+    width: 100%;
+    margin-top: 1.5rem;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+  }
+  .compare-table td {
+    padding: 0.9rem 1.4rem;
+    font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+    background: var(--bg-card);
+    border: none;
+  }
+  .compare-table td:first-child {
+    border-radius: 8px 0 0 8px;
+    color: var(--text-dim);
+    width: 45%;
+  }
+  .compare-table td:last-child {
+    border-radius: 0 8px 8px 0;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .compare-table .icon-cell {
+    width: 40px; text-align: center;
+    border-radius: 0;
+    font-size: 1.2rem;
+  }
+
+  /* Two columns with header */
+  .col-header {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .col-header.red { color: var(--danger); border-color: rgba(232,90,90,0.2); }
+  .col-header.green { color: var(--accent); border-color: rgba(62,207,180,0.2); }
+
+  ul { list-style: none; }
+  ul li { padding: 0.35rem 0; padding-left: 1.2rem; position: relative; }
+  ul li::before {
+    content: ''; position: absolute; left: 0; top: 0.75rem;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+  }
+  ul.danger-list li::before { background: var(--danger); }
+
+  /* Flow chart */
+  .flow-item {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .flow-arrow { color: var(--accent); font-size: 1.4rem; font-weight: 700; }
+  .flow-label { font-weight: 600; min-width: 160px; }
+  .flow-desc { color: var(--text-dim); }
+
+  /* Claw family compact */
+  .claw-item {
+    background: var(--bg-card);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    text-align: center;
+  }
+  .claw-item h3 { font-size: 1rem; margin-bottom: 0.3rem; }
+  .claw-item p { font-size: 0.82rem; line-height: 1.4; }
+
+  /* Setup options table */
+  .setup-table {
+    width: 100%;
+    margin-top: 1.5rem;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+  }
+  .setup-table th {
+    text-align: left;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    padding: 0 1.2rem 0.5rem;
+    font-weight: 500;
+  }
+  .setup-table td {
+    padding: 1rem 1.2rem;
+    font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+    background: var(--bg-card);
+    border: none;
+  }
+  .setup-table tr td:first-child { border-radius: 8px 0 0 8px; font-weight: 600; }
+  .setup-table tr td:last-child { border-radius: 0 8px 8px 0; }
+  .setup-table .recommended {
+    background: var(--accent-dim);
+    border: 1px solid rgba(62,207,180,0.25);
+  }
+  .setup-table .recommended td { background: transparent; }
+
+  /* Subtitle styling */
+  .subtitle { color: var(--text-dim); font-size: clamp(1rem, 1.5vw, 1.3rem); font-weight: 400; margin-bottom: 2rem; }
+
+  /* Image placeholder */
+  .img-placeholder {
+    background: var(--bg-card);
+    border: 1px dashed rgba(255,255,255,0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    min-height: 200px;
+    padding: 1rem;
+  }
+
+  /* Keyboard hints */
+  .nav-hint {
+    position: fixed; bottom: 16px; left: 32px;
+    font-size: 12px; color: rgba(255,255,255,0.15);
+    z-index: 100;
+  }
+  .nav-hint kbd {
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-family: var(--mono);
+  }
+
+  @media (max-width: 768px) {
+    .slide { padding: 4vh 5vw; }
+    .grid-2, .grid-3, .grid-5 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+<!-- ============================================ -->
+<!-- SLIDE 1: COVER -->
+<!-- ============================================ -->
+<div class="slide active" data-slide="1">
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+    <p class="mono small accent" style="margin-bottom:1rem;">WORKSHOP · APRIL 2026</p>
+    <h1>Your First <span class="accent">AI Agent</span></h1>
+    <p class="subtitle">From Chatbot User to Agent Manager</p>
+    <div style="margin-top:2rem;">
+      <p style="color:var(--text); font-weight:500;">Ray Han</p>
+      <p class="small dim">Head of AI CoE · SAP APJ</p>
+    </div>
+  </div>
+  <div class="img-placeholder" style="position:absolute; right:6vw; top:15vh; width:35vw; height:55vh; opacity:0.6;">
+    [Image: Calm workspace with autonomous screens]<br>
+    <span class="small">Unsplash: "minimalist workspace dark screens"</span>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 2: THE SHIFT + ICE BREAKER -->
+<!-- ============================================ -->
+<div class="slide" data-slide="2">
+  <p class="dim small" style="margin-bottom:2rem;">
+    Quick round — "What's the most <span class="accent2">useful</span> thing you've used AI for? And the most <span class="danger">useless</span>?"
+  </p>
+  <h1>You're not the user anymore.</h1>
+  <h1 style="margin-top:-0.5rem;">You're the <span class="accent">manager</span>.</h1>
+  <div style="margin-top:3rem;">
+    <div class="grid-2">
+      <div>
+        <p class="dim small" style="margin-bottom:0.3rem;">CHATBOT</p>
+        <p>A search engine. You ask, it answers, it forgets.</p>
+      </div>
+      <div>
+        <p class="accent small" style="margin-bottom:0.3rem;">AGENT</p>
+        <p style="color:var(--text);">Hiring someone. You delegate, they act, they remember.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 3: CHATBOT VS AGENT TABLE -->
+<!-- ============================================ -->
+<div class="slide" data-slide="3">
+  <h2>Chatbot vs <span class="accent">Agent</span></h2>
+  <table class="compare-table">
+    <tr>
+      <td class="icon-cell">⏳</td>
+      <td>Waits for you to ask</td>
+      <td>Acts on its own schedule</td>
+    </tr>
+    <tr>
+      <td class="icon-cell">🧠</td>
+      <td>Forgets everything after chat</td>
+      <td>Remembers who you are</td>
+    </tr>
+    <tr>
+      <td class="icon-cell">📋</td>
+      <td>One task at a time</td>
+      <td>Juggles multiple jobs</td>
+    </tr>
+    <tr>
+      <td class="icon-cell">🔄</td>
+      <td>You manage it</td>
+      <td>It manages itself</td>
+    </tr>
+    <tr>
+      <td class="icon-cell">🌙</td>
+      <td>Useful when you're present</td>
+      <td>Useful while you sleep</td>
+    </tr>
+  </table>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 4: MEMORY -->
+<!-- ============================================ -->
+<div class="slide" data-slide="4">
+  <div class="grid-2">
+    <div>
+      <p class="mono small accent" style="margin-bottom:0.8rem;">BUILDING BLOCK 1</p>
+      <h2>Memory</h2>
+      <p class="big-text" style="margin: 1.5rem 0;">Your agent keeps a notebook.</p>
+      <ul>
+        <li>Knows who you are, what you've asked, what you prefer</li>
+        <li>Searches by keyword <em>and</em> by concept</li>
+        <li>Reviews and prunes — like a good PA</li>
+      </ul>
+      <blockquote style="margin-top:1.5rem;">
+        "An agent that cannot forget will eventually fail to understand what's important."
+      </blockquote>
+    </div>
+    <div>
+      <div class="img-placeholder" style="height:100%; min-height:50vh;">
+        [Ray's Telegram screenshot]<br>
+        <span class="small">Agent responding to "What do you know about me?"<br>Capture before Saturday</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 5: HEARTBEAT -->
+<!-- ============================================ -->
+<div class="slide" data-slide="5">
+  <div class="grid-2">
+    <div>
+      <p class="mono small accent" style="margin-bottom:0.8rem;">BUILDING BLOCK 2</p>
+      <h2>Heartbeat</h2>
+      <p class="big-text" style="margin: 1.5rem 0;">It wakes up. Checks in.<br>Without being asked.</p>
+      <ul>
+        <li>Wakes every 30 minutes on its own</li>
+        <li>Checks inbox, reviews tasks, monitors triggers</li>
+        <li>Sends scheduled updates — you set it once</li>
+      </ul>
+      <p class="dim" style="margin-top:1.5rem;">
+        Analogy: voicemail box vs a person who actually monitors their phone.
+      </p>
+    </div>
+    <div class="img-placeholder" style="min-height:50vh;">
+      [Image: Phone glowing at dawn / heartbeat pulse]<br>
+      <span class="small">Unsplash: "phone nightstand dawn notification"</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 6: SKILLS + CHANNELS -->
+<!-- ============================================ -->
+<div class="slide" data-slide="6">
+  <div class="grid-2">
+    <div class="card card-accent">
+      <p class="mono small accent" style="margin-bottom:0.8rem;">BUILDING BLOCK 3</p>
+      <h3>Skills</h3>
+      <p class="big-text" style="margin:1rem 0;">Write a job description.<br>It runs it forever.</p>
+      <ul>
+        <li>Plain English instruction files</li>
+        <li>Anyone can write one — no code</li>
+        <li>Consistent, repeatable, shareable</li>
+      </ul>
+    </div>
+    <div class="card card-amber">
+      <p class="mono small accent2" style="margin-bottom:0.8rem;">BUILDING BLOCK 4</p>
+      <h3>Channels</h3>
+      <p class="big-text" style="margin:1rem 0;">It meets you<br>where you are.</p>
+      <ul>
+        <li>Telegram, WhatsApp, email, web</li>
+        <li>One message → action</li>
+        <li>No context switching</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 7: SUMMARY QUOTE -->
+<!-- ============================================ -->
+<div class="slide" data-slide="7">
+  <div style="max-width:70%; margin:0 auto; text-align:center;">
+    <p class="big-text" style="font-size:clamp(1.8rem,3.2vw,2.6rem); line-height:1.6; margin-bottom:1rem;">
+      A chatbot <span class="dim">answers your questions.</span>
+    </p>
+    <p class="big-text" style="font-size:clamp(1.8rem,3.2vw,2.6rem); line-height:1.6; margin-bottom:2rem;">
+      An agent <span class="accent">runs your workflows.</span>
+    </p>
+    <p style="font-size:clamp(1.2rem,2vw,1.6rem); color:var(--text-dim);">
+      One needs your constant attention. The other doesn't.
+    </p>
+  </div>
+  <div class="img-placeholder" style="position:absolute; bottom:8vh; right:6vw; width:30vw; height:30vh; opacity:0.4;">
+    [Image: Orchestra conductor]<br>
+    <span class="small">Unsplash: "conductor orchestra leading"</span>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 8: REALITY CHECK -->
+<!-- ============================================ -->
+<div class="slide" data-slide="8">
+  <h2>The Honest <span class="accent2">Reality Check</span></h2>
+  <div class="grid-2" style="margin-top:2rem;">
+    <div class="card card-danger">
+      <p class="col-header red">NOT FOR YOU (YET)</p>
+      <ul class="danger-list">
+        <li>No established workflow</li>
+        <li>Driven by FOMO</li>
+        <li>Want AI to replace your thinking</li>
+        <li>Can't use a chatbot well yet</li>
+      </ul>
+    </div>
+    <div class="card card-accent">
+      <p class="col-header green">THIS IS FOR YOU</p>
+      <ul>
+        <li>Repeatable workflow you want running without you</li>
+        <li>Can describe what you want clearly</li>
+        <li>Can evaluate whether the output is good</li>
+      </ul>
+    </div>
+  </div>
+  <blockquote style="margin-top:2rem;">
+    "Have the system first, then automate it."
+    <div class="attr">— Ernesto Lopez</div>
+  </blockquote>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 9: SECURITY -->
+<!-- ============================================ -->
+<div class="slide" data-slide="9">
+  <h2>Before You Start: <span class="danger">3 Risks</span>, <span class="accent">3 Rules</span></h2>
+  <div class="grid-2" style="margin-top:1.5rem;">
+    <div>
+      <div class="card card-danger" style="margin-bottom:1rem;">
+        <h3 class="danger">Malicious skills exist</h3>
+        <p class="small">341 trojanized skills found in the official marketplace. Like malicious apps — except with access to your files and API keys.</p>
+      </div>
+      <div class="card card-danger" style="margin-bottom:1rem;">
+        <h3 class="danger">Prompt injection is real</h3>
+        <p class="small">A crafted email tricked an agent into extracting private keys in minutes. Unsolved industry-wide.</p>
+      </div>
+      <div class="card card-danger">
+        <h3 class="danger">Agents can disobey</h3>
+        <p class="small">A Meta director's agent ignored "wait for confirmation" and deleted 200+ emails.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card card-accent" style="margin-bottom:1rem;">
+        <h3 class="accent">Use a managed platform</h3>
+        <p class="small">They handle security so you don't have to — especially when starting out.</p>
+      </div>
+      <div class="card card-accent" style="margin-bottom:1rem;">
+        <h3 class="accent">Don't install random skills</h3>
+        <p class="small">Read them first, like you'd read app permissions.</p>
+      </div>
+      <div class="card card-accent">
+        <h3 class="accent">Start with low-stakes tasks</h3>
+        <p class="small">Treat your agent like a new hire. Earn trust gradually.</p>
+      </div>
+      <p class="dim small" style="margin-top:1.5rem; font-style:italic;">Think of it like early smartphone apps. Powerful, useful, occasionally dangerous.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 10: REAL STORY - MORNING DIGEST -->
+<!-- ============================================ -->
+<div class="slide" data-slide="10">
+  <div class="grid-2">
+    <div>
+      <p class="mono small accent" style="margin-bottom:0.8rem;">REAL STORY</p>
+      <h2>The Morning Digest</h2>
+      <p class="big-text" style="margin:1.5rem 0;">Every morning at 8am.<br>News + calendar + tasks.<br>Without asking.</p>
+      <ul>
+        <li>Agent knows your interests, filters the noise</li>
+        <li>10 minutes of reading instead of 45 minutes of hunting</li>
+        <li>Set it up once. It runs every day.</li>
+      </ul>
+      <p class="accent" style="margin-top:2rem; font-weight:600;">
+        "Which resonates most? What would YOUR use case be?"
+      </p>
+    </div>
+    <div class="img-placeholder" style="min-height:50vh;">
+      [Image: Sunrise + phone showing clean notification]<br>
+      <span class="small">Unsplash: "morning phone notification sunrise coffee"</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 11: DECISION TREE / LANDSCAPE -->
+<!-- ============================================ -->
+<div class="slide" data-slide="11">
+  <h2>Who Should Use <span class="accent">What?</span></h2>
+  <div style="margin-top:2rem;">
+    <div class="flow-item">
+      <span class="flow-label">Quick answers?</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-desc"><strong>Chatbot</strong> (ChatGPT, Claude.ai, Gemini). You're done.</span>
+    </div>
+    <div class="flow-item">
+      <span class="flow-label">Build software?</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-desc"><strong>Coding agent</strong> (Claude Code, Cursor). Session-based.</span>
+    </div>
+    <div class="flow-item" style="border-color:rgba(62,207,180,0.2); border-width:2px;">
+      <span class="flow-label accent">24/7 workflow?</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-desc"><strong class="accent">Autonomous agent.</strong> This is what we're here for today.</span>
+    </div>
+    <div class="flow-item" style="border-color:rgba(232,164,74,0.2);">
+      <span class="flow-label accent2">No workflow yet?</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-desc">Don't set up an agent yet. <em>"Have the system first."</em></span>
+    </div>
+  </div>
+  <p class="dim" style="margin-top:2rem; text-align:center;">The skill you're building today isn't about any one tool. It's <strong class="accent">delegation</strong>.</p>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 12: CLOSING -->
+<!-- ============================================ -->
+<div class="slide" data-slide="12">
+  <div style="max-width:70%; margin:0 auto; text-align:center;">
+    <blockquote style="border:none; text-align:center; font-size:clamp(1.6rem,2.8vw,2.2rem); font-style:normal; padding:0;">
+      "Personal context is the only moat."
+      <div class="attr" style="font-size:1rem;">— Howie</div>
+    </blockquote>
+    <p style="margin-top:3rem; font-size:clamp(1.2rem,2vw,1.6rem); color:var(--text-dim); line-height:1.8;">
+      Your agent, tuned to your workflows,<br>
+      thinking in your voice —<br>
+      nobody else has that.
+    </p>
+    <p class="accent" style="margin-top:3rem; font-size:clamp(1.4rem,2.2vw,1.8rem); font-weight:600;">
+      Start with one agent. One job. One skill.<br>That's enough.
+    </p>
+  </div>
+  <div class="img-placeholder" style="position:absolute; bottom:6vh; right:8vw; width:22vw; height:25vh; opacity:0.4;">
+    [Image: Seedling in soil]<br>
+    <span class="small">Unsplash: "seedling sprout dark soil"</span>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 13: CLAW FAMILY -->
+<!-- ============================================ -->
+<div class="slide" data-slide="13">
+  <h2>The Claw Family — <span class="accent">Not Just OpenClaw</span></h2>
+  <div class="grid-5" style="margin-top:2rem;">
+    <div class="claw-item" style="border-top:3px solid var(--accent);">
+      <h3 class="accent">OpenClaw</h3>
+      <p>The original. Full ecosystem. 400K+ lines. Biggest skill registry.</p>
+    </div>
+    <div class="claw-item" style="border-top:3px solid #7eb8da;">
+      <h3 style="color:#7eb8da;">NanoClaw</h3>
+      <p>Security-first. ~4K lines. Runs in containers. Audit every line.</p>
+    </div>
+    <div class="claw-item" style="border-top:3px solid #c97bdb;">
+      <h3 style="color:#c97bdb;">PicoClaw</h3>
+      <p>Ultra-tiny. Go binary. &lt;10MB RAM. Runs on a $10 board.</p>
+    </div>
+    <div class="claw-item" style="border-top:3px solid #76b900;">
+      <h3 style="color:#76b900;">NemoClaw</h3>
+      <p>NVIDIA enterprise. Hardened security. Managed inference.</p>
+    </div>
+    <div class="claw-item" style="border-top:3px solid var(--accent2);">
+      <h3 class="accent2">Hermes</h3>
+      <p>Self-improving. Auto-generates skills. Deepest memory. 200+ models.</p>
+    </div>
+  </div>
+  <p style="text-align:center; margin-top:2.5rem; color:var(--text-dim);">
+    They all share the same building blocks. <strong class="accent">Learn them once, pick your platform later.</strong>
+  </p>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 14: CHOOSE YOUR PATH -->
+<!-- ============================================ -->
+<div class="slide" data-slide="14">
+  <h2>Choose Your <span class="accent">Path</span></h2>
+  <p class="dim" style="margin-bottom:0.5rem;">Pick the setup that fits you. We'll connect during the break.</p>
+  <table class="setup-table">
+    <thead>
+      <tr>
+        <th>Platform</th>
+        <th>Cost</th>
+        <th>Difficulty</th>
+        <th>Best for</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="recommended">
+        <td><span class="accent">ClawMesh</span> <span class="small accent" style="background:var(--accent-dim); padding:2px 8px; border-radius:4px;">RECOMMENDED</span></td>
+        <td>Free trial</td>
+        <td>Easy — one click</td>
+        <td>Most people today</td>
+      </tr>
+      <tr>
+        <td>Railway / Render</td>
+        <td>~$5/month</td>
+        <td>Medium</td>
+        <td>Cloud control without hardware</td>
+      </tr>
+      <tr>
+        <td>VPS (Tencent, AWS…)</td>
+        <td>~$5-10/month</td>
+        <td>Medium-Hard</td>
+        <td>Asia-based, cost-sensitive</td>
+      </tr>
+      <tr>
+        <td>Local (Mac, RPi…)</td>
+        <td>Hardware only</td>
+        <td>Hard</td>
+        <td>Privacy-first, tinkerers</td>
+      </tr>
+    </tbody>
+  </table>
+  <blockquote style="margin-top:2rem;">
+    "Full disclosure: I have a partner code with ClawMesh. If you stay, I earn a referral. I'm telling you this so you can trust everything else I say today."
+    <div class="attr">— Ray</div>
+  </blockquote>
+</div>
+
+</div><!-- /deck -->
+
+<!-- Navigation -->
+<div class="progress" id="progress"></div>
+<div class="slide-counter" id="counter">1 / 14</div>
+<div class="nav-hint"><kbd>←</kbd> <kbd>→</kbd> or <kbd>Space</kbd></div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+function show(n) {
+  current = Math.max(0, Math.min(total - 1, n));
+  slides.forEach((s, i) => s.classList.toggle('active', i === current));
+  document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+  document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); show(current + 1); }
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(current - 1); }
+  if (e.key === 'Home') { e.preventDefault(); show(0); }
+  if (e.key === 'End') { e.preventDefault(); show(total - 1); }
+});
+
+// Touch support
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) { dx < 0 ? show(current + 1) : show(current - 1); }
+});
+
+show(0);
+</script>
+
+</body>
+</html>

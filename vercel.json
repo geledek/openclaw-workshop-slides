@@ -1,0 +1,19 @@
+{
+  "rewrites": [
+    {
+      "source": "/deck/:path*",
+      "has": [
+        {
+          "type": "cookie",
+          "key": "deck_access",
+          "value": "1"
+        }
+      ],
+      "destination": "/deck/:path*"
+    },
+    {
+      "source": "/deck/:path*",
+      "destination": "/"
+    }
+  ]
+}

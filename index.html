@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your First AI Agent — Workshop by Ray Han</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0f1117;
+    color: #e8e9ed;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-font-smoothing: antialiased;
+  }
+  .gate {
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+    padding: 2rem;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #3ecfb4;
+    background: rgba(62,207,180,0.12);
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+  h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.02em;
+  }
+  h1 span { color: #3ecfb4; }
+  .sub {
+    color: #8b8fa3;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+  }
+  .sub strong { color: #e8e9ed; font-weight: 500; }
+  form {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+  input[type="email"] {
+    flex: 1;
+    padding: 0.85rem 1rem;
+    font-size: 1rem;
+    font-family: inherit;
+    background: #1a1d27;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: #e8e9ed;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type="email"]:focus {
+    border-color: #3ecfb4;
+  }
+  input[type="email"]::placeholder { color: #555; }
+  button {
+    padding: 0.85rem 1.6rem;
+    font-size: 1rem;
+    font-family: inherit;
+    font-weight: 600;
+    background: #3ecfb4;
+    color: #0f1117;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  button:hover { background: #35b89f; }
+  button:disabled { opacity: 0.6; cursor: not-allowed; }
+  .error {
+    color: #e85a5a;
+    font-size: 0.85rem;
+    margin-top: -0.8rem;
+    margin-bottom: 1rem;
+    display: none;
+  }
+  .footer {
+    color: #555;
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+  .footer a { color: #8b8fa3; text-decoration: none; }
+  .meta {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .meta p {
+    color: #555;
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<div class="gate">
+  <div class="tag">Workshop Slides</div>
+  <h1>Your First <span>AI Agent</span></h1>
+  <p class="sub">
+    From Chatbot User to Agent Manager.<br>
+    A 2-hour workshop by <strong>Ray Han</strong>.
+  </p>
+
+  <form id="gate-form" action="/api/collect" method="POST">
+    <input type="email" name="email" placeholder="your@email.com" required autocomplete="email">
+    <button type="submit">View Slides</button>
+  </form>
+  <p class="error" id="error-msg"></p>
+
+  <p class="footer">
+    Your email is only used to share workshop updates.<br>
+    No spam. Unsubscribe anytime.
+  </p>
+
+  <div class="meta">
+    <p>
+      April 2026 · Singapore<br>
+      Concepts: Memory, Heartbeat, Skills, Channels<br>
+      Platforms: OpenClaw, NanoClaw, PicoClaw, NemoClaw, Hermes
+    </p>
+  </div>
+</div>
+
+<script>
+document.getElementById('gate-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const btn = form.querySelector('button');
+  const errEl = document.getElementById('error-msg');
+  const email = form.email.value.trim();
+
+  btn.disabled = true;
+  btn.textContent = 'Loading...';
+  errEl.style.display = 'none';
+
+  try {
+    const res = await fetch('/api/collect', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    if (res.ok) {
+      window.location.href = '/deck';
+    } else {
+      const data = await res.json().catch(() => ({}));
+      errEl.textContent = data.error || 'Something went wrong. Please try again.';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'View Slides';
+    }
+  } catch {
+    errEl.textContent = 'Network error. Please try again.';
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'View Slides';
+  }
+});
+</script>
+
+</body>
+</html>
