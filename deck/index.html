@@ -8,18 +8,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f1117;
-    --bg-card: #1a1d27;
-    --bg-card-alt: #161922;
-    --text: #e8e9ed;
-    --text-dim: #8b8fa3;
-    --accent: #3ecfb4;
-    --accent-dim: rgba(62,207,180,0.15);
-    --accent2: #e8a44a;
-    --accent2-dim: rgba(232,164,74,0.12);
-    --danger: #e85a5a;
-    --danger-dim: rgba(232,90,90,0.12);
-    --success: #3ecfb4;
+    --bg: #f5f5f7;
+    --bg-card: #ffffff;
+    --bg-card-alt: #f0f0f2;
+    --text: #1a1d27;
+    --text-dim: #6b7084;
+    --accent: #0e9e84;
+    --accent-dim: rgba(14,158,132,0.1);
+    --accent2: #c8842a;
+    --accent2-dim: rgba(200,132,42,0.1);
+    --danger: #d44040;
+    --danger-dim: rgba(212,64,64,0.08);
+    --success: #0e9e84;
     --font: 'Inter', -apple-system, sans-serif;
     --mono: 'JetBrains Mono', monospace;
   }
@@ -83,6 +83,8 @@
     font-style: italic;
     color: var(--text);
     font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+    background: rgba(14,158,132,0.05);
+    border-radius: 0 8px 8px 0;
   }
   blockquote .attr { font-style: normal; color: var(--text-dim); font-size: 0.9rem; margin-top: 0.5rem; }
 
@@ -93,9 +95,10 @@
 
   .card {
     background: var(--bg-card);
-    border: 1px solid rgba(255,255,255,0.06);
+    border: 1px solid rgba(0,0,0,0.08);
     border-radius: 12px;
     padding: 1.8rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   }
   .card h3 { margin-bottom: 0.5rem; }
   .card-accent { border-left: 3px solid var(--accent); }
@@ -139,10 +142,10 @@
     font-weight: 600;
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
   }
-  .col-header.red { color: var(--danger); border-color: rgba(232,90,90,0.2); }
-  .col-header.green { color: var(--accent); border-color: rgba(62,207,180,0.2); }
+  .col-header.red { color: var(--danger); border-color: rgba(212,64,64,0.2); }
+  .col-header.green { color: var(--accent); border-color: rgba(14,158,132,0.2); }
 
   ul { list-style: none; }
   ul li { padding: 0.35rem 0; padding-left: 1.2rem; position: relative; }
@@ -156,13 +159,14 @@
   /* Flow chart */
   .flow-item {
     background: var(--bg-card);
-    border: 1px solid rgba(255,255,255,0.06);
+    border: 1px solid rgba(0,0,0,0.08);
     border-radius: 10px;
     padding: 1rem 1.5rem;
     margin: 0.5rem 0;
     display: flex;
     align-items: center;
     gap: 1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   }
   .flow-arrow { color: var(--accent); font-size: 1.4rem; font-weight: 700; }
   .flow-label { font-weight: 600; min-width: 160px; }
@@ -174,6 +178,7 @@
     border-radius: 10px;
     padding: 1rem 1.2rem;
     text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
   }
   .claw-item h3 { font-size: 1rem; margin-bottom: 0.3rem; }
   .claw-item p { font-size: 0.82rem; line-height: 1.4; }
@@ -204,7 +209,7 @@
   .setup-table tr td:last-child { border-radius: 0 8px 8px 0; }
   .setup-table .recommended {
     background: var(--accent-dim);
-    border: 1px solid rgba(62,207,180,0.25);
+    border: 1px solid rgba(14,158,132,0.2);
   }
   .setup-table .recommended td { background: transparent; }
 
@@ -214,7 +219,7 @@
   /* Image placeholder */
   .img-placeholder {
     background: var(--bg-card);
-    border: 1px dashed rgba(255,255,255,0.1);
+    border: 1px dashed rgba(0,0,0,0.12);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -228,11 +233,11 @@
   /* Keyboard hints */
   .nav-hint {
     position: fixed; bottom: 16px; left: 32px;
-    font-size: 12px; color: rgba(255,255,255,0.15);
+    font-size: 12px; color: rgba(0,0,0,0.2);
     z-index: 100;
   }
   .nav-hint kbd {
-    background: rgba(255,255,255,0.06);
+    background: rgba(0,0,0,0.06);
     border-radius: 3px;
     padding: 2px 6px;
     font-family: var(--mono);
@@ -254,16 +259,11 @@
 <div class="slide active" data-slide="1">
   <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
     <p class="mono small accent" style="margin-bottom:1rem;">WORKSHOP · APRIL 2026</p>
-    <h1>Your First <span class="accent">AI Agent</span></h1>
-    <p class="subtitle">From Chatbot User to Agent Manager</p>
-    <div style="margin-top:2rem;">
-      <p style="color:var(--text); font-weight:500;">Ray Han</p>
-      <p class="small dim">Head of AI CoE · SAP APJ</p>
+    <h1>Build Your Personal AI Assistant with <span class="accent">OpenClaw</span></h1>
+    <div style="margin-top:3rem;">
+      <p style="color:var(--text); font-weight:600; font-size:clamp(1.2rem,2vw,1.6rem);">Ray Han</p>
+      <p class="dim" style="font-size:clamp(1rem,1.5vw,1.2rem); margin-top:0.3rem;">hi@rayhan.ai</p>
     </div>
-  </div>
-  <div class="img-placeholder" style="position:absolute; right:6vw; top:15vh; width:35vw; height:55vh; opacity:0.6;">
-    [Image: Calm workspace with autonomous screens]<br>
-    <span class="small">Unsplash: "minimalist workspace dark screens"</span>
   </div>
 </div>
 
@@ -274,11 +274,11 @@
   <div style="max-width:75%; margin:0 auto; text-align:center;">
     <p class="mono small accent" style="margin-bottom:2rem;">ICE BREAKER</p>
     <h1 style="font-size:clamp(2rem,4vw,3.2rem); line-height:1.4;">
-      What's the most <span class="accent2">useful</span> thing<br>
-      you've used AI for?
+      What's one thing you wish someone would<br>
+      just <span class="accent2">handle for you</span> — without being asked?
     </h1>
     <h1 style="font-size:clamp(2rem,4vw,3.2rem); line-height:1.4; margin-top:1.5rem;">
-      And the most <span class="danger">useless</span>?
+      Have you ever tried to get <span class="accent">AI to do it</span>?<br>What happened?
     </h1>
     <p class="dim" style="margin-top:3rem; font-size:1.1rem;">Quick round. 3-4 people. No wrong answers.</p>
   </div>
@@ -288,57 +288,39 @@
 <!-- SLIDE 3: THE SHIFT -->
 <!-- ============================================ -->
 <div class="slide" data-slide="3">
-  <h1>You're not the user anymore.</h1>
-  <h1 style="margin-top:-0.5rem;">You're the <span class="accent">manager</span>.</h1>
-  <div style="margin-top:3rem;">
-    <div class="grid-2">
-      <div>
-        <p class="dim small" style="margin-bottom:0.3rem;">CHATBOT</p>
-        <p>A search engine. You ask, it answers, it forgets.</p>
-      </div>
-      <div>
-        <p class="accent small" style="margin-bottom:0.3rem;">AGENT</p>
-        <p style="color:var(--text);">Hiring someone. You delegate, they act, they remember.</p>
-      </div>
-    </div>
-  </div>
+  <h1>AI agent can be your <span class="accent">AI assistant</span>.</h1>
+  <h1 style="margin-top:-0.5rem;">Useful from day one — <span class="accent">better the more you invest</span>.</h1>
 </div>
 
 <!-- ============================================ -->
 <!-- SLIDE 4: CHATBOT VS AGENT TABLE -->
 <!-- ============================================ -->
 <div class="slide" data-slide="4">
-  <h2>Chatbot vs <span class="accent">Agent</span></h2>
-  <table class="compare-table">
+  <h2 style="text-align:center;">Chatbot vs <span class="accent">Agent</span></h2>
+  <table class="compare-table" style="max-width:820px; margin-left:auto; margin-right:auto;">
     <tr>
-      <td class="icon-cell"></td>
-      <td style="color:var(--text-dim); font-weight:600; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; background:transparent; padding-bottom:0.3rem;">Chatbot</td>
-      <td style="color:var(--accent); font-weight:600; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; background:transparent; padding-bottom:0.3rem;">Agent</td>
+      <td style="color:var(--text-dim); font-weight:600; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; background:transparent; padding-bottom:0.3rem; text-align:center; width:50%;">Chatbot</td>
+      <td style="color:var(--accent); font-weight:600; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.08em; background:transparent; padding-bottom:0.3rem; text-align:center; width:50%;">Agent</td>
     </tr>
     <tr>
-      <td class="icon-cell">⏳</td>
-      <td>Waits for you to ask</td>
-      <td>Acts on its own schedule</td>
+      <td style="text-align:center; border-radius:8px 0 0 8px;">⏳ Waits for you to ask</td>
+      <td style="text-align:center; border-radius:0 8px 8px 0; color:var(--accent);">⚡ Acts on its own schedule</td>
     </tr>
     <tr>
-      <td class="icon-cell">🧠</td>
-      <td>Forgets everything after chat</td>
-      <td>Remembers who you are</td>
+      <td style="text-align:center; border-radius:8px 0 0 8px;">🫥 Forgets everything after chat</td>
+      <td style="text-align:center; border-radius:0 8px 8px 0; color:var(--accent);">🧠 Remembers who you are</td>
     </tr>
     <tr>
-      <td class="icon-cell">📋</td>
-      <td>One task at a time</td>
-      <td>Juggles multiple jobs</td>
+      <td style="text-align:center; border-radius:8px 0 0 8px;">1️⃣ One task at a time</td>
+      <td style="text-align:center; border-radius:0 8px 8px 0; color:var(--accent);">🤹 Juggles multiple jobs</td>
     </tr>
     <tr>
-      <td class="icon-cell">🔄</td>
-      <td>You manage it</td>
-      <td>It manages itself</td>
+      <td style="text-align:center; border-radius:8px 0 0 8px;">🕹️ You manage it</td>
+      <td style="text-align:center; border-radius:0 8px 8px 0; color:var(--accent);">🤖 It manages itself</td>
     </tr>
     <tr>
-      <td class="icon-cell">🌙</td>
-      <td>Useful when you're present</td>
-      <td>Useful while you sleep</td>
+      <td style="text-align:center; border-radius:8px 0 0 8px;">👁️ Useful when you're present</td>
+      <td style="text-align:center; border-radius:0 8px 8px 0; color:var(--accent);">🌙 Useful while you sleep</td>
     </tr>
   </table>
 </div>
@@ -347,7 +329,7 @@
 <!-- SLIDE 5: MEMORY -->
 <!-- ============================================ -->
 <div class="slide" data-slide="5">
-  <div class="grid-2">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
     <div>
       <p class="mono small accent" style="margin-bottom:0.8rem;">BUILDING BLOCK 1</p>
       <h2>Memory</h2>
@@ -361,11 +343,8 @@
         "An agent that cannot forget will eventually fail to understand what's important."
       </blockquote>
     </div>
-    <div>
-      <div class="img-placeholder" style="height:100%; min-height:50vh;">
-        [Ray's Telegram screenshot]<br>
-        <span class="small">Agent responding to "What do you know about me?"<br>Capture before Saturday</span>
-      </div>
+    <div style="height:70vh;">
+      <img src="../assets/screenshot.png" alt="Agent memory demo screenshot" style="height:100%; width:100%; object-fit:cover; border-radius:12px;">
     </div>
   </div>
 </div>
@@ -374,7 +353,7 @@
 <!-- SLIDE 6: HEARTBEAT -->
 <!-- ============================================ -->
 <div class="slide" data-slide="6">
-  <div class="grid-2">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
     <div>
       <p class="mono small accent" style="margin-bottom:0.8rem;">BUILDING BLOCK 2</p>
       <h2>Heartbeat</h2>
@@ -388,59 +367,72 @@
         Analogy: voicemail box vs a person who actually monitors their phone.
       </p>
     </div>
-    <div class="img-placeholder" style="min-height:50vh;">
-      [Image: Phone glowing at dawn / heartbeat pulse]<br>
-      <span class="small">Unsplash: "phone nightstand dawn notification"</span>
-    </div>
+    <img src="../assets/heartbeat.png" alt="Phone glowing at dawn with notification pulse" style="width:100%; height:70vh; max-height:70vh; object-fit:cover; border-radius:12px;">
   </div>
 </div>
 
 <!-- ============================================ -->
-<!-- SLIDE 7: SKILLS + CHANNELS -->
+<!-- SLIDE 7: SKILLS -->
 <!-- ============================================ -->
 <div class="slide" data-slide="7">
-  <div class="grid-2">
-    <div class="card card-accent">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
+    <div>
       <p class="mono small accent" style="margin-bottom:0.8rem;">BUILDING BLOCK 3</p>
-      <h3>Skills</h3>
-      <p class="big-text" style="margin:1rem 0;">Write a job description.<br>It runs it forever.</p>
+      <h2>Skills</h2>
+      <p class="big-text" style="margin:1.5rem 0;">Write a job description.<br>It runs it forever.</p>
       <ul>
         <li>Plain English instruction files</li>
         <li>Anyone can write one — no code</li>
         <li>Consistent, repeatable, shareable</li>
       </ul>
     </div>
-    <div class="card card-amber">
-      <p class="mono small accent2" style="margin-bottom:0.8rem;">BUILDING BLOCK 4</p>
-      <h3>Channels</h3>
-      <p class="big-text" style="margin:1rem 0;">It meets you<br>where you are.</p>
-      <ul>
-        <li>Telegram, WhatsApp, email, web</li>
-        <li>One message → action</li>
-        <li>No context switching</li>
-      </ul>
+    <div style="display:flex; flex-direction:column; gap:1.2rem;">
+      <div class="card card-accent" style="padding:1.5rem 2rem;">
+        <p class="dim small" style="margin-bottom:0.6rem; font-style:italic;">Morning digest</p>
+        <p style="font-family:var(--mono); font-size:0.85rem; color:var(--text); line-height:1.7;">
+          Every morning at 8am,<br>
+          summarise my unread emails,<br>
+          flag anything urgent,<br>
+          and send me a digest on Telegram.
+        </p>
+      </div>
+      <div class="card card-accent" style="padding:1.5rem 2rem;">
+        <p class="dim small" style="margin-bottom:0.6rem; font-style:italic;">Meeting prep</p>
+        <p style="font-family:var(--mono); font-size:0.85rem; color:var(--text); line-height:1.7;">
+          30 minutes before each meeting,<br>
+          pull the agenda and attendee bios,<br>
+          summarise my last interaction with them,<br>
+          and send me a one-page brief.
+        </p>
+      </div>
+      <div class="card card-accent" style="padding:1.5rem 2rem;">
+        <p class="dim small" style="margin-bottom:0.6rem; font-style:italic;">Weekend planner</p>
+        <p style="font-family:var(--mono); font-size:0.85rem; color:var(--text); line-height:1.7;">
+          Every Thursday evening,<br>
+          check the weather and my calendar,<br>
+          suggest 3 things to do this weekend,<br>
+          based on what I enjoyed before.
+        </p>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- ============================================ -->
-<!-- SLIDE 8: SUMMARY QUOTE -->
+<!-- SLIDE 8: CHANNELS -->
 <!-- ============================================ -->
 <div class="slide" data-slide="8">
-  <div style="max-width:70%; margin:0 auto; text-align:center;">
-    <p class="big-text" style="font-size:clamp(1.8rem,3.2vw,2.6rem); line-height:1.6; margin-bottom:1rem;">
-      A chatbot <span class="dim">answers your questions.</span>
-    </p>
-    <p class="big-text" style="font-size:clamp(1.8rem,3.2vw,2.6rem); line-height:1.6; margin-bottom:2rem;">
-      An agent <span class="accent">runs your workflows.</span>
-    </p>
-    <p style="font-size:clamp(1.2rem,2vw,1.6rem); color:var(--text-dim);">
-      One needs your constant attention. The other doesn't.
-    </p>
-  </div>
-  <div class="img-placeholder" style="position:absolute; bottom:8vh; right:6vw; width:30vw; height:30vh; opacity:0.4;">
-    [Image: Orchestra conductor]<br>
-    <span class="small">Unsplash: "conductor orchestra leading"</span>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
+    <div>
+      <p class="mono small accent2" style="margin-bottom:0.8rem;">BUILDING BLOCK 4</p>
+      <h2>Channels</h2>
+      <p class="big-text" style="margin:1.5rem 0;">It meets you<br>where you are.</p>
+      <ul>
+        <li>One message → action</li>
+        <li>No context switching</li>
+      </ul>
+    </div>
+    <img src="../assets/icons.png" alt="Telegram, WhatsApp, Slack, Discord, Teams, Email" style="width:100%; object-fit:contain; border-radius:12px;">
   </div>
 </div>
 
@@ -448,30 +440,33 @@
 <!-- SLIDE 9: REALITY CHECK -->
 <!-- ============================================ -->
 <div class="slide" data-slide="9">
-  <h2>The Honest <span class="accent2">Reality Check</span></h2>
-  <div class="grid-2" style="margin-top:2rem;">
-    <div class="card card-danger">
-      <p class="col-header red">NOT FOR YOU (YET)</p>
-      <ul class="danger-list">
-        <li>No established workflow</li>
-        <li>Driven by FOMO</li>
-        <li>Want AI to replace your thinking</li>
-        <li>Can't use a chatbot well yet</li>
-      </ul>
+  <div style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+    <h2>The Honest <span class="accent2">Reality Check</span></h2>
+    <div class="grid-2" style="margin-top:2rem;">
+      <div class="card card-danger">
+        <p class="col-header red">NOT FOR YOU (YET)</p>
+        <ul class="danger-list">
+          <li>No established workflow</li>
+          <li>Driven by FOMO</li>
+          <li>Want AI to replace your thinking</li>
+          <li>Can't use a chatbot well yet</li>
+        </ul>
+      </div>
+      <div class="card card-accent">
+        <p class="col-header green">THIS IS FOR YOU</p>
+        <ul>
+          <li>Repeatable workflow you want running without you</li>
+          <li>Can describe what you want clearly</li>
+          <li>Can evaluate whether the output is good</li>
+        </ul>
+      </div>
     </div>
-    <div class="card card-accent">
-      <p class="col-header green">THIS IS FOR YOU</p>
-      <ul>
-        <li>Repeatable workflow you want running without you</li>
-        <li>Can describe what you want clearly</li>
-        <li>Can evaluate whether the output is good</li>
-      </ul>
-    </div>
+    <blockquote style="margin-top:2rem;">
+      "Have the system first, then automate it."
+      <!-- Ernesto Lopez: runs 11 apps ($73k/mo), uses OpenClaw agent "Eddie" for content & outreach. Quote from his case study. -->
+      <div class="attr">— Ernesto Lopez</div>
+    </blockquote>
   </div>
-  <blockquote style="margin-top:2rem;">
-    "Have the system first, then automate it."
-    <div class="attr">— Ernesto Lopez</div>
-  </blockquote>
 </div>
 
 <!-- ============================================ -->
@@ -516,7 +511,7 @@
 <!-- SLIDE 11: REAL STORY - MORNING DIGEST -->
 <!-- ============================================ -->
 <div class="slide" data-slide="11">
-  <div class="grid-2">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
     <div>
       <p class="mono small accent" style="margin-bottom:0.8rem;">REAL STORY</p>
       <h2>The Morning Digest</h2>
@@ -530,10 +525,7 @@
         "Which resonates most? What would YOUR use case be?"
       </p>
     </div>
-    <div class="img-placeholder" style="min-height:50vh;">
-      [Image: Sunrise + phone showing clean notification]<br>
-      <span class="small">Unsplash: "morning phone notification sunrise coffee"</span>
-    </div>
+    <img src="../assets/morning.png" alt="Morning phone notification at sunrise" style="width:100%; height:70vh; max-height:70vh; object-fit:cover; border-radius:12px;">
   </div>
 </div>
 
@@ -564,30 +556,23 @@
       <span class="flow-desc">Don't set up an agent yet. <em>"Have the system first."</em></span>
     </div>
   </div>
-  <p class="dim" style="margin-top:2rem; text-align:center;">The skill you're building today isn't about any one tool. It's <strong class="accent">delegation</strong>.</p>
+  <p class="dim" style="margin-top:2rem; text-align:center;">The skill you're building today is knowing how to brief a great <strong class="accent">assistant</strong>.</p>
 </div>
 
 <!-- ============================================ -->
 <!-- SLIDE 13: CLOSING -->
 <!-- ============================================ -->
 <div class="slide" data-slide="13">
-  <div style="max-width:70%; margin:0 auto; text-align:center;">
-    <blockquote style="border:none; text-align:center; font-size:clamp(1.6rem,2.8vw,2.2rem); font-style:normal; padding:0;">
-      "Personal context is the only moat."
-      <div class="attr" style="font-size:1rem;">— Howie</div>
-    </blockquote>
-    <p style="margin-top:3rem; font-size:clamp(1.2rem,2vw,1.6rem); color:var(--text-dim); line-height:1.8;">
-      Your agent, tuned to your workflows,<br>
-      thinking in your voice —<br>
-      nobody else has that.
-    </p>
-    <p class="accent" style="margin-top:3rem; font-size:clamp(1.4rem,2.2vw,1.8rem); font-weight:600;">
-      Start with one agent. One job. One skill.<br>That's enough.
-    </p>
-  </div>
-  <div class="img-placeholder" style="position:absolute; bottom:6vh; right:8vw; width:22vw; height:25vh; opacity:0.4;">
-    [Image: Seedling in soil]<br>
-    <span class="small">Unsplash: "seedling sprout dark soil"</span>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:4rem; height:100%; align-items:center;">
+    <div style="text-align:center;">
+      <h2 style="font-size:clamp(1.8rem,3vw,2.4rem); line-height:1.4;">
+        "Personal context is the <span class="accent">only moat</span>."
+      </h2>
+      <p class="accent" style="margin-top:3rem; font-size:clamp(1.4rem,2.2vw,1.8rem); font-weight:600;">
+        Start with one assistant. One job. One skill.<br>That's enough.
+      </p>
+    </div>
+    <img src="../assets/seedling.png" alt="Seedling sprouting from soil" style="width:100%; height:70vh; max-height:70vh; object-fit:contain; border-radius:12px; opacity:0.75;">
   </div>
 </div>
 
@@ -665,17 +650,197 @@
       </tr>
     </tbody>
   </table>
-  <blockquote style="margin-top:2rem;">
-    "Full disclosure: I have a partner code with ClawMesh. If you stay, I earn a referral. I'm telling you this so you can trust everything else I say today."
-    <div class="attr">— Ray</div>
-  </blockquote>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 16: SETUP -->
+<!-- ============================================ -->
+<div class="slide" data-slide="16">
+  <div style="display:flex; flex-direction:column; justify-content:center; height:100%;">
+    <p class="mono small accent" style="margin-bottom:0.8rem;">HANDS-ON</p>
+    <h2>Let's Get You <span class="accent">Connected</span></h2>
+    <div style="margin-top:2rem;">
+      <div class="flow-item">
+        <span class="flow-label">Step 1</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-desc">Install <strong>Telegram</strong> on your phone (if not already installed)</span>
+      </div>
+      <div class="flow-item" style="border-color:rgba(62,207,180,0.2); border-width:2px;">
+        <span class="flow-label accent">Step 2</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-desc">Go to <strong class="accent">clawmesh.app</strong> → one-click signup → connect your Telegram bot</span>
+      </div>
+      <div class="flow-item">
+        <span class="flow-label">Step 3</span>
+        <span class="flow-arrow">→</span>
+        <span class="flow-desc">Send <strong>"Hello"</strong> to your agent. Confirm it responds.</span>
+      </div>
+    </div>
+    <p class="dim" style="margin-top:2rem; font-style:italic;">Stuck? Pair with someone who's connected. Nobody watches from the sidelines.</p>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 17: EXERCISE 1 - MEET YOUR ASSISTANT -->
+<!-- ============================================ -->
+<div class="slide" data-slide="17">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
+    <div>
+      <p class="mono small accent" style="margin-bottom:0.8rem;">USE CASE 1 · 15 MIN</p>
+      <h2>Meet Your <span class="accent">Assistant</span></h2>
+      <div style="margin-top:1.5rem; display:flex; flex-direction:column; gap:0.6rem;">
+        <div class="flow-item">
+          <span class="flow-label" style="min-width:30px;">1</span>
+          <span class="flow-desc">"Hi, I'm <strong>[name]</strong>. I work in <strong>[field]</strong>. I care about <strong>[2-3 topics]</strong>."</span>
+        </div>
+        <div class="flow-item">
+          <span class="flow-label" style="min-width:30px;">2</span>
+          <span class="flow-desc">"What would be a useful daily briefing for someone like me?"</span>
+        </div>
+        <div class="flow-item">
+          <span class="flow-label" style="min-width:30px;">3</span>
+          <span class="flow-desc">Close the chat. Reopen. Ask: <strong>"What do you know about me?"</strong></span>
+        </div>
+        <div class="flow-item">
+          <span class="flow-label" style="min-width:30px;">4</span>
+          <span class="flow-desc">Tell it something new. Close. Reopen. Ask again.</span>
+        </div>
+      </div>
+    </div>
+    <div class="card card-accent" style="padding:2rem;">
+      <h3 class="accent">What to notice</h3>
+      <ul style="margin-top:1rem;">
+        <li>It remembers across sessions — unlike any chatbot</li>
+        <li>Each message adds to its understanding of you</li>
+        <li>This is <strong>Memory</strong> working in real time</li>
+      </ul>
+      <p class="dim" style="margin-top:1.5rem; font-style:italic;">"What's the first thing you'd want your assistant to always remember about you?"</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 18: EXERCISE 2 - RECURRING JOB -->
+<!-- ============================================ -->
+<div class="slide" data-slide="18">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
+    <div>
+      <p class="mono small accent" style="margin-bottom:0.8rem;">USE CASE 2 · 10 MIN</p>
+      <h2>Give It a <span class="accent">Recurring Job</span></h2>
+      <div style="margin-top:1.5rem; display:flex; flex-direction:column; gap:0.6rem;">
+        <div class="flow-item">
+          <span class="flow-label" style="min-width:30px;">1</span>
+          <span class="flow-desc">"Every morning at 8am, send me a 5-bullet briefing on <strong>[topic]</strong>."</span>
+        </div>
+        <div class="flow-item">
+          <span class="flow-label" style="min-width:30px;">2</span>
+          <span class="flow-desc">"Keep it under 200 words. Skip anything older than 48 hours."</span>
+        </div>
+        <div class="flow-item">
+          <span class="flow-label" style="min-width:30px;">3</span>
+          <span class="flow-desc">"What recurring jobs do you have scheduled for me?"</span>
+        </div>
+        <div class="flow-item" style="border-color:rgba(62,207,180,0.2); border-width:2px;">
+          <span class="flow-label accent" style="min-width:30px;">4</span>
+          <span class="flow-desc"><strong class="accent">"Run my morning briefing right now."</strong> — see the output instantly</span>
+        </div>
+      </div>
+    </div>
+    <div class="card card-accent" style="padding:2rem;">
+      <h3 class="accent">What to notice</h3>
+      <ul style="margin-top:1rem;">
+        <li>One instruction — runs forever without reminders</li>
+        <li>The agent doesn't need you to be present</li>
+        <li>This is <strong>Heartbeat</strong> in action</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 19: EXERCISE 3 - TRIGGER FROM MESSAGE -->
+<!-- ============================================ -->
+<div class="slide" data-slide="19">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
+    <div>
+      <p class="mono small accent" style="margin-bottom:0.8rem;">USE CASE 3 · 10 MIN</p>
+      <h2>Trigger From a <span class="accent">Message</span></h2>
+      <div style="margin-top:1.5rem; display:flex; flex-direction:column; gap:0.6rem;">
+        <div class="flow-item">
+          <span class="flow-label" style="min-width:30px;">1</span>
+          <span class="flow-desc">Find an article you'd normally bookmark</span>
+        </div>
+        <div class="flow-item">
+          <span class="flow-label" style="min-width:30px;">2</span>
+          <span class="flow-desc">Send <strong>just the URL</strong> to your agent — no other text</span>
+        </div>
+        <div class="flow-item">
+          <span class="flow-label" style="min-width:30px;">3</span>
+          <span class="flow-desc">Watch it fetch, summarize, tag, and save</span>
+        </div>
+        <div class="flow-item">
+          <span class="flow-label" style="min-width:30px;">4</span>
+          <span class="flow-desc">"Find me that article about <strong>[rough concept]</strong>"</span>
+        </div>
+      </div>
+    </div>
+    <div class="card card-accent" style="padding:2rem;">
+      <h3 class="accent">What to notice</h3>
+      <ul style="margin-top:1rem;">
+        <li>Same as sharing a link with a friend</li>
+        <li>No new app, no context switch</li>
+        <li>This is <strong>Channels + Skills + Memory</strong> working together</li>
+      </ul>
+      <p class="dim" style="margin-top:1.5rem; font-style:italic;">If your agent doesn't support this yet — that's fine. It's a skill you can add later.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 20: QUICK CHECK -->
+<!-- ============================================ -->
+<div class="slide" data-slide="20">
+  <div style="max-width:75%; margin:0 auto; text-align:center; display:flex; flex-direction:column; justify-content:center; height:100%;">
+    <p class="mono small accent" style="margin-bottom:2rem;">QUICK CHECK</p>
+    <h1 style="font-size:clamp(2rem,4vw,3.2rem); line-height:1.4;">
+      Who has an assistant that<br><span class="accent">remembers their name</span>?
+    </h1>
+    <h1 style="font-size:clamp(2rem,4vw,3.2rem); line-height:1.4; margin-top:1.5rem;">
+      Who has a <span class="accent">job scheduled</span>?
+    </h1>
+    <p class="dim" style="margin-top:3rem; font-size:1.1rem;">Show of hands. That's all it takes to get started.</p>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 21: WHAT'S NEXT -->
+<!-- ============================================ -->
+<div class="slide" data-slide="21">
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:4rem; height:100%; align-items:center;">
+    <div>
+      <h2>Your <span class="accent">Next Step</span></h2>
+      <p class="big-text" style="margin:1.5rem 0;">Pick ONE workflow this week.<br>Write it as a skill.<br>That's how it starts.</p>
+      <blockquote style="margin-top:2rem;">
+        "The tools will change. The concepts won't."
+      </blockquote>
+    </div>
+    <div style="text-align:center;">
+      <h3 style="margin-bottom:1.5rem;">Resources & Contact</h3>
+      <p style="font-size:clamp(1.1rem,1.6vw,1.3rem); margin-bottom:0.5rem;"><strong>github.com/geledek/openclaw-cookbook</strong></p>
+      <p class="dim">Templates, examples, and everything from today</p>
+      <div style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid rgba(0,0,0,0.08);">
+        <p style="font-weight:600; font-size:1.1rem;">Ray Han</p>
+        <p class="accent" style="font-size:1.1rem;">hi@rayhan.ai</p>
+      </div>
+    </div>
+  </div>
 </div>
 
 </div><!-- /deck -->
 
 <!-- Navigation -->
 <div class="progress" id="progress"></div>
-<div class="slide-counter" id="counter">1 / 15</div>
+<div class="slide-counter" id="counter">1 / 21</div>
 <div class="nav-hint"><kbd>←</kbd> <kbd>→</kbd> or <kbd>Space</kbd></div>
 
 <script>
