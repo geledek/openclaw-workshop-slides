@@ -326,9 +326,91 @@
 </div>
 
 <!-- ============================================ -->
-<!-- SLIDE 5: MEMORY -->
+<!-- SLIDE 5: ARCHITECTURE OVERVIEW -->
 <!-- ============================================ -->
 <div class="slide" data-slide="5">
+  <h2 style="text-align:center; margin-bottom:2rem;">How It All <span class="accent">Fits Together</span></h2>
+  <div style="max-width:900px; margin:0 auto;">
+    <!-- Architecture diagram as styled HTML -->
+    <div style="display:flex; align-items:center; justify-content:center; gap:0; flex-wrap:nowrap;">
+
+      <!-- YOU -->
+      <div style="text-align:center; min-width:90px;">
+        <div style="font-size:2.2rem;">🧑</div>
+        <p style="font-weight:700; font-size:0.95rem; margin-top:0.3rem;">You</p>
+      </div>
+
+      <!-- Arrow -->
+      <div style="font-size:1.6rem; color:var(--text-dim); padding:0 0.6rem;">→</div>
+
+      <!-- CHANNELS -->
+      <div style="background:var(--accent2-dim); border:2px solid var(--accent2); border-radius:12px; padding:1rem 1.2rem; text-align:center; min-width:110px;">
+        <p style="font-weight:700; color:var(--accent2); font-size:0.95rem;">Channels</p>
+        <p class="small dim" style="margin-top:0.3rem;">Telegram, WhatsApp<br>Email, Web</p>
+      </div>
+
+      <!-- Arrow -->
+      <div style="font-size:1.6rem; color:var(--text-dim); padding:0 0.6rem;">→</div>
+
+      <!-- AGENT (center, larger) -->
+      <div style="background:var(--accent-dim); border:2px solid var(--accent); border-radius:16px; padding:1.5rem 2rem; text-align:center; min-width:180px; position:relative;">
+        <p style="font-weight:800; color:var(--accent); font-size:1.15rem;">Agent</p>
+        <p class="small dim" style="margin-top:0.3rem;">The brain — reads context,<br>decides what to do</p>
+
+        <!-- Heartbeat indicator -->
+        <div style="position:absolute; top:-12px; right:-12px; background:var(--bg-card); border:2px solid var(--accent); border-radius:20px; padding:2px 10px; font-size:0.7rem; font-weight:600; color:var(--accent);">
+          💓 Heartbeat
+        </div>
+
+        <!-- Memory below agent -->
+        <div style="margin-top:1rem; padding-top:0.8rem; border-top:1px dashed var(--accent);">
+          <p style="font-weight:600; color:var(--accent); font-size:0.85rem;">🧠 Memory</p>
+          <p class="small dim">Remembers you<br>across sessions</p>
+        </div>
+      </div>
+
+      <!-- Arrow -->
+      <div style="font-size:1.6rem; color:var(--text-dim); padding:0 0.6rem;">→</div>
+
+      <!-- SKILLS -->
+      <div style="background:var(--accent-dim); border:2px solid var(--accent); border-radius:12px; padding:1rem 1.2rem; text-align:center; min-width:110px;">
+        <p style="font-weight:700; color:var(--accent); font-size:0.95rem;">Skills</p>
+        <p class="small dim" style="margin-top:0.3rem;">Job descriptions<br>in plain English</p>
+      </div>
+
+      <!-- Arrow -->
+      <div style="font-size:1.6rem; color:var(--text-dim); padding:0 0.6rem;">→</div>
+
+      <!-- LLM -->
+      <div style="background:var(--bg-card); border:2px solid var(--text-dim); border-radius:12px; padding:1rem 1.2rem; text-align:center; min-width:110px; box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+        <p style="font-weight:700; color:var(--text); font-size:0.95rem;">LLM</p>
+        <p class="small dim" style="margin-top:0.3rem;">Claude, GPT,<br>Gemini, Local</p>
+      </div>
+
+    </div>
+
+    <!-- Legend -->
+    <div style="display:flex; justify-content:center; gap:2.5rem; margin-top:2.5rem;">
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <div style="width:12px; height:12px; border-radius:3px; background:var(--accent);"></div>
+        <span class="small dim">The 4 building blocks</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.5rem;">
+        <div style="width:12px; height:12px; border-radius:3px; background:var(--text-dim);"></div>
+        <span class="small dim">Interchangeable — pick any model</span>
+      </div>
+    </div>
+
+    <p style="text-align:center; margin-top:1.5rem; color:var(--text-dim); font-size:clamp(1rem,1.4vw,1.15rem);">
+      <strong class="accent">Memory</strong>, <strong class="accent">Heartbeat</strong>, <strong class="accent">Skills</strong>, and <strong class="accent">Channels</strong> — let's look at each one.
+    </p>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- SLIDE 6: MEMORY -->
+<!-- ============================================ -->
+<div class="slide" data-slide="6">
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
     <div>
       <p class="mono small accent" style="margin-bottom:0.8rem;">BUILDING BLOCK 1</p>
@@ -352,7 +434,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 6: HEARTBEAT -->
 <!-- ============================================ -->
-<div class="slide" data-slide="6">
+<div class="slide" data-slide="7">
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
     <div>
       <p class="mono small accent" style="margin-bottom:0.8rem;">BUILDING BLOCK 2</p>
@@ -374,7 +456,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 7: SKILLS -->
 <!-- ============================================ -->
-<div class="slide" data-slide="7">
+<div class="slide" data-slide="8">
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
     <div>
       <p class="mono small accent" style="margin-bottom:0.8rem;">BUILDING BLOCK 3</p>
@@ -421,7 +503,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 8: CHANNELS -->
 <!-- ============================================ -->
-<div class="slide" data-slide="8">
+<div class="slide" data-slide="9">
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
     <div>
       <p class="mono small accent2" style="margin-bottom:0.8rem;">BUILDING BLOCK 4</p>
@@ -439,7 +521,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 9: REALITY CHECK -->
 <!-- ============================================ -->
-<div class="slide" data-slide="9">
+<div class="slide" data-slide="10">
   <div style="display:flex; flex-direction:column; justify-content:center; height:100%;">
     <h2>The Honest <span class="accent2">Reality Check</span></h2>
     <div class="grid-2" style="margin-top:2rem;">
@@ -472,7 +554,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 10: SECURITY -->
 <!-- ============================================ -->
-<div class="slide" data-slide="10">
+<div class="slide" data-slide="11">
   <h2>Before You Start: <span class="danger">3 Risks</span>, <span class="accent">3 Rules</span></h2>
   <div class="grid-2" style="margin-top:1.5rem;">
     <div>
@@ -510,7 +592,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 11: REAL STORY - MORNING DIGEST -->
 <!-- ============================================ -->
-<div class="slide" data-slide="11">
+<div class="slide" data-slide="12">
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
     <div>
       <p class="mono small accent" style="margin-bottom:0.8rem;">REAL STORY</p>
@@ -532,7 +614,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 12: DECISION TREE / LANDSCAPE -->
 <!-- ============================================ -->
-<div class="slide" data-slide="12">
+<div class="slide" data-slide="13">
   <h2>Who Should Use <span class="accent">What?</span></h2>
   <div style="margin-top:2rem;">
     <div class="flow-item">
@@ -562,7 +644,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 13: CLOSING -->
 <!-- ============================================ -->
-<div class="slide" data-slide="13">
+<div class="slide" data-slide="14">
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:4rem; height:100%; align-items:center;">
     <div style="text-align:center;">
       <h2 style="font-size:clamp(1.8rem,3vw,2.4rem); line-height:1.4;">
@@ -579,7 +661,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 14: CLAW FAMILY -->
 <!-- ============================================ -->
-<div class="slide" data-slide="14">
+<div class="slide" data-slide="15">
   <h2>The Claw Family — <span class="accent">Not Just OpenClaw</span></h2>
   <div class="grid-5" style="margin-top:2rem;">
     <div class="claw-item" style="border-top:3px solid var(--accent);">
@@ -611,7 +693,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 15: CHOOSE YOUR PATH -->
 <!-- ============================================ -->
-<div class="slide" data-slide="15">
+<div class="slide" data-slide="16">
   <h2>Choose Your <span class="accent">Path</span></h2>
   <p class="dim" style="margin-bottom:0.5rem;">Pick the setup that fits you. We'll connect during the break.</p>
   <table class="setup-table">
@@ -655,7 +737,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 16: SETUP -->
 <!-- ============================================ -->
-<div class="slide" data-slide="16">
+<div class="slide" data-slide="17">
   <div style="display:flex; flex-direction:column; justify-content:center; height:100%;">
     <p class="mono small accent" style="margin-bottom:0.8rem;">HANDS-ON</p>
     <h2>Let's Get You <span class="accent">Connected</span></h2>
@@ -683,7 +765,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 17: EXERCISE 1 - MEET YOUR ASSISTANT -->
 <!-- ============================================ -->
-<div class="slide" data-slide="17">
+<div class="slide" data-slide="18">
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
     <div>
       <p class="mono small accent" style="margin-bottom:0.8rem;">USE CASE 1 · 15 MIN</p>
@@ -722,7 +804,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 18: EXERCISE 2 - RECURRING JOB -->
 <!-- ============================================ -->
-<div class="slide" data-slide="18">
+<div class="slide" data-slide="19">
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
     <div>
       <p class="mono small accent" style="margin-bottom:0.8rem;">USE CASE 2 · 10 MIN</p>
@@ -760,7 +842,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 19: EXERCISE 3 - TRIGGER FROM MESSAGE -->
 <!-- ============================================ -->
-<div class="slide" data-slide="19">
+<div class="slide" data-slide="20">
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; height:100%; align-items:center;">
     <div>
       <p class="mono small accent" style="margin-bottom:0.8rem;">USE CASE 3 · 10 MIN</p>
@@ -799,7 +881,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 20: QUICK CHECK -->
 <!-- ============================================ -->
-<div class="slide" data-slide="20">
+<div class="slide" data-slide="21">
   <div style="max-width:75%; margin:0 auto; text-align:center; display:flex; flex-direction:column; justify-content:center; height:100%;">
     <p class="mono small accent" style="margin-bottom:2rem;">QUICK CHECK</p>
     <h1 style="font-size:clamp(2rem,4vw,3.2rem); line-height:1.4;">
@@ -815,7 +897,7 @@
 <!-- ============================================ -->
 <!-- SLIDE 21: WHAT'S NEXT -->
 <!-- ============================================ -->
-<div class="slide" data-slide="21">
+<div class="slide" data-slide="22">
   <div style="display:grid; grid-template-columns:1fr 1fr; gap:4rem; height:100%; align-items:center;">
     <div>
       <h2>Your <span class="accent">Next Step</span></h2>
@@ -840,7 +922,7 @@
 
 <!-- Navigation -->
 <div class="progress" id="progress"></div>
-<div class="slide-counter" id="counter">1 / 21</div>
+<div class="slide-counter" id="counter">1 / 22</div>
 <div class="nav-hint"><kbd>←</kbd> <kbd>→</kbd> or <kbd>Space</kbd></div>
 
 <script>
