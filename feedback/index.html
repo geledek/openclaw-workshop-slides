@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop Feedback — Your First AI Agent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0f1117;
+    color: #e8e9ed;
+    min-height: 100vh;
+    padding: 3rem 1rem 5rem;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #3ecfb4;
+    background: rgba(62,207,180,0.12);
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 1.2rem;
+    font-weight: 600;
+  }
+  .header h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .header h1 span { color: #3ecfb4; }
+  .header p {
+    color: #6b7084;
+    font-size: 0.95rem;
+    margin-top: 0.6rem;
+    line-height: 1.5;
+  }
+  .anon-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    color: #8b8fa3;
+    margin-top: 1rem;
+  }
+  .anon-note span { color: #3ecfb4; font-size: 1rem; }
+
+  /* Progress bar */
+  .progress-bar-track {
+    background: rgba(255,255,255,0.07);
+    border-radius: 4px;
+    height: 4px;
+    margin-bottom: 2.5rem;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: #3ecfb4;
+    border-radius: 4px;
+    transition: width 0.35s ease;
+    width: 0%;
+  }
+
+  /* Question blocks */
+  .q-block {
+    margin-bottom: 2.2rem;
+  }
+  .q-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #e8e9ed;
+    margin-bottom: 0.2rem;
+    line-height: 1.4;
+  }
+  .q-sub {
+    font-size: 0.82rem;
+    color: #6b7084;
+    margin-bottom: 0.9rem;
+  }
+
+  /* Star rating */
+  .stars {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .stars input { display: none; }
+  .stars label {
+    font-size: 2rem;
+    cursor: pointer;
+    color: rgba(255,255,255,0.15);
+    transition: color 0.15s, transform 0.1s;
+    user-select: none;
+    line-height: 1;
+  }
+  .stars label:hover,
+  .stars label.active { color: #f5c842; }
+  .stars label:active { transform: scale(0.9); }
+
+  /* Chip select (single/multi) */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+  .chips input { display: none; }
+  .chips label {
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: #8b8fa3;
+    background: #1a1d27;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .chips label:hover { border-color: rgba(62,207,180,0.4); color: #e8e9ed; }
+  .chips input:checked + label {
+    border-color: #3ecfb4;
+    color: #3ecfb4;
+    background: rgba(62,207,180,0.1);
+  }
+
+  /* Text area */
+  textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    background: #1a1d27;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: #e8e9ed;
+    resize: vertical;
+    outline: none;
+    line-height: 1.6;
+    min-height: 80px;
+    transition: border-color 0.2s;
+  }
+  textarea:focus { border-color: #3ecfb4; }
+  textarea::placeholder { color: #3a3d4a; }
+
+  /* Contact input */
+  input[type="text"],
+  input[type="email"] {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: #1a1d27;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: #e8e9ed;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus { border-color: #3ecfb4; }
+  input::placeholder { color: #3a3d4a; }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin: 2.5rem 0;
+  }
+
+  /* Submit */
+  .submit-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.05rem;
+    font-family: inherit;
+    font-weight: 600;
+    background: #3ecfb4;
+    color: #0f1117;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 0.5rem;
+  }
+  .submit-btn:hover { background: #35b89f; }
+  .submit-btn:active { transform: scale(0.99); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Thank you state */
+  .thankyou {
+    display: none;
+    text-align: center;
+    padding: 4rem 1rem;
+  }
+  .thankyou .check {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .thankyou h2 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.02em;
+  }
+  .thankyou h2 span { color: #3ecfb4; }
+  .thankyou p {
+    color: #6b7084;
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .footer-note {
+    text-align: center;
+    color: #3a3d4a;
+    font-size: 0.78rem;
+    margin-top: 2rem;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="tag">Post-Session Feedback</div>
+    <h1>How was the <span>workshop</span>?</h1>
+    <p>Your honest input shapes the next session.<br>Takes about 2 minutes.</p>
+    <div class="anon-note"><span>&#x1F512;</span> Anonymous — no account required</div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar-track">
+    <div class="progress-bar-fill" id="progress-fill"></div>
+  </div>
+
+  <!-- FORM -->
+  <form id="feedback-form">
+
+    <!-- Q1: Overall rating -->
+    <div class="q-block">
+      <div class="q-label">1. Overall, how would you rate this workshop?</div>
+      <div class="q-sub">Tap a star</div>
+      <div class="stars" id="stars-overall" role="group" aria-label="Overall rating">
+        <input type="radio" name="overall" id="s1" value="1">
+        <label for="s1" title="1 star">&#9733;</label>
+        <input type="radio" name="overall" id="s2" value="2">
+        <label for="s2" title="2 stars">&#9733;</label>
+        <input type="radio" name="overall" id="s3" value="3">
+        <label for="s3" title="3 stars">&#9733;</label>
+        <input type="radio" name="overall" id="s4" value="4">
+        <label for="s4" title="4 stars">&#9733;</label>
+        <input type="radio" name="overall" id="s5" value="5">
+        <label for="s5" title="5 stars">&#9733;</label>
+      </div>
+    </div>
+
+    <!-- Q2: Most valuable -->
+    <div class="q-block">
+      <div class="q-label">2. Which part was most valuable to you?</div>
+      <div class="q-sub">Pick one</div>
+      <div class="chips">
+        <input type="radio" name="valuable" id="v1" value="Memory">
+        <label for="v1">Memory</label>
+        <input type="radio" name="valuable" id="v2" value="Heartbeat">
+        <label for="v2">Heartbeat</label>
+        <input type="radio" name="valuable" id="v3" value="Skills">
+        <label for="v3">Skills</label>
+        <input type="radio" name="valuable" id="v4" value="Channels">
+        <label for="v4">Channels</label>
+        <input type="radio" name="valuable" id="v5" value="Hands-on exercises">
+        <label for="v5">Hands-on exercises</label>
+        <input type="radio" name="valuable" id="v6" value="Real-world examples">
+        <label for="v6">Real-world examples</label>
+      </div>
+    </div>
+
+    <!-- Q3: Pace -->
+    <div class="q-block">
+      <div class="q-label">3. How was the pace?</div>
+      <div class="chips">
+        <input type="radio" name="pace" id="p1" value="Too slow">
+        <label for="p1">Too slow</label>
+        <input type="radio" name="pace" id="p2" value="Just right">
+        <label for="p2">Just right</label>
+        <input type="radio" name="pace" id="p3" value="Too fast">
+        <label for="p3">Too fast</label>
+      </div>
+    </div>
+
+    <!-- Q4: Likelihood to recommend -->
+    <div class="q-block">
+      <div class="q-label">4. How likely are you to recommend this to a colleague?</div>
+      <div class="q-sub">1 = not at all, 5 = definitely</div>
+      <div class="stars" id="stars-nps" role="group" aria-label="Recommendation likelihood">
+        <input type="radio" name="nps" id="n1" value="1">
+        <label for="n1" title="1">&#9733;</label>
+        <input type="radio" name="nps" id="n2" value="2">
+        <label for="n2" title="2">&#9733;</label>
+        <input type="radio" name="nps" id="n3" value="3">
+        <label for="n3" title="3">&#9733;</label>
+        <input type="radio" name="nps" id="n4" value="4">
+        <label for="n4" title="4">&#9733;</label>
+        <input type="radio" name="nps" id="n5" value="5">
+        <label for="n5" title="5">&#9733;</label>
+      </div>
+    </div>
+
+    <!-- Q5: What next -->
+    <div class="q-block">
+      <div class="q-label">5. What would you like to do next?</div>
+      <div class="q-sub">Select all that apply</div>
+      <div class="chips">
+        <input type="checkbox" name="next" id="nx1" value="Set up my own agent">
+        <label for="nx1">Set up my own agent</label>
+        <input type="checkbox" name="next" id="nx2" value="Share with my team">
+        <label for="nx2">Share with my team</label>
+        <input type="checkbox" name="next" id="nx3" value="Attend an advanced session">
+        <label for="nx3">Advanced session</label>
+        <input type="checkbox" name="next" id="nx4" value="Get 1-on-1 help">
+        <label for="nx4">Get 1-on-1 help</label>
+        <input type="checkbox" name="next" id="nx5" value="Just explore on my own">
+        <label for="nx5">Explore on my own</label>
+      </div>
+    </div>
+
+    <!-- Q6: One thing -->
+    <div class="q-block">
+      <div class="q-label">6. One thing that could make it better</div>
+      <div class="q-sub">Optional — be blunt</div>
+      <textarea name="improve" placeholder="e.g. More hands-on time, fewer slides, a follow-up resource list…" rows="3"></textarea>
+    </div>
+
+    <hr class="divider">
+
+    <!-- Q7: Contact (optional) -->
+    <div class="q-block">
+      <div class="q-label">7. Want to stay in touch? <span style="color:#6b7084; font-weight:400;">(optional)</span></div>
+      <div class="q-sub">Leave a Telegram handle, LinkedIn URL, or email — Ray will reach out personally. This is the only question that isn't anonymous.</div>
+      <input type="text" name="contact" placeholder="e.g. @handle, linkedin.com/in/you, or your@email.com" autocomplete="off">
+    </div>
+
+    <button type="submit" class="submit-btn" id="submit-btn">Submit feedback</button>
+
+    <p class="footer-note">
+      Responses go to a private Google Sheet visible only to the workshop organiser.<br>
+      Contact info (Q7) is never shared or sold.
+    </p>
+
+  </form>
+
+  <!-- THANK YOU -->
+  <div class="thankyou" id="thankyou">
+    <div class="check">&#10003;</div>
+    <h2>Thanks for the <span>feedback</span>.</h2>
+    <p>It genuinely helps. Every response is read before the next session.</p>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+// ============================================================
+// GOOGLE SHEETS DIRECT INTEGRATION (no Google Form needed)
+//
+// Setup (one time):
+//   1. Open your Google Sheet (or create a new one)
+//   2. Extensions → Apps Script → paste the script below → Save
+//   3. Deploy → New Deployment → Web App
+//        Execute as: Me
+//        Who has access: Anyone
+//   4. Copy the Web App URL and paste it as WEBHOOK below
+//
+// Apps Script to paste:
+// -------------------------------------------------------
+//   function doPost(e) {
+//     var sheet = SpreadsheetApp.getActiveSpreadsheet()
+//                   .getSheetByName('Feedback')
+//                   || SpreadsheetApp.getActiveSpreadsheet().insertSheet('Feedback');
+//     if (sheet.getLastRow() === 0) {
+//       sheet.appendRow(['Timestamp','Overall','Most Valuable','Pace',
+//                        'Recommend','Next Steps','Improvement','Contact']);
+//     }
+//     var d = JSON.parse(e.postData.contents);
+//     sheet.appendRow([
+//       new Date().toISOString(),
+//       d.overall  || '',
+//       d.valuable || '',
+//       d.pace     || '',
+//       d.nps      || '',
+//       d.next     || '',
+//       d.improve  || '',
+//       d.contact  || ''
+//     ]);
+//     return ContentService.createTextOutput('ok');
+//   }
+// -------------------------------------------------------
+// ============================================================
+
+const WEBHOOK = 'https://script.google.com/macros/s/AKfycbyFniSwIghJ-niteoIhTRR7y3UzmFexcXoooBjFJ1nlJawnzrc_Mq6yxpIfNmrNfq_joQ/exec';
+
+// ---- Star rating UX ----
+function initStars(groupId) {
+  const group = document.getElementById(groupId);
+  const labels = group.querySelectorAll('label');
+  const inputs = group.querySelectorAll('input');
+
+  labels.forEach((label, i) => {
+    label.addEventListener('mouseenter', () => {
+      labels.forEach((l, j) => l.classList.toggle('active', j <= i));
+    });
+    label.addEventListener('click', () => {
+      inputs[i].checked = true;
+      labels.forEach((l, j) => l.classList.toggle('active', j <= i));
+      updateProgress();
+    });
+  });
+  group.addEventListener('mouseleave', () => {
+    const checked = group.querySelector('input:checked');
+    const val = checked ? parseInt(checked.value) - 1 : -1;
+    labels.forEach((l, j) => l.classList.toggle('active', j <= val));
+  });
+}
+
+initStars('stars-overall');
+initStars('stars-nps');
+
+// ---- Progress tracking ----
+const REQUIRED_NAMES = ['overall', 'valuable', 'pace', 'nps'];
+
+function updateProgress() {
+  let answered = 0;
+  REQUIRED_NAMES.forEach(name => {
+    const el = document.querySelector(`[name="${name}"]:checked`);
+    if (el) answered++;
+  });
+  const pct = Math.round((answered / REQUIRED_NAMES.length) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+document.querySelectorAll('input[type="radio"], input[type="checkbox"]')
+  .forEach(el => el.addEventListener('change', updateProgress));
+
+// ---- Form submit ----
+document.getElementById('feedback-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  const nextVals = [...document.querySelectorAll('[name="next"]:checked')]
+    .map(el => el.value).join(', ');
+
+  const payload = {
+    overall:  document.querySelector('[name="overall"]:checked')?.value  || '',
+    valuable: document.querySelector('[name="valuable"]:checked')?.value || '',
+    pace:     document.querySelector('[name="pace"]:checked')?.value     || '',
+    nps:      document.querySelector('[name="nps"]:checked')?.value      || '',
+    next:     nextVals,
+    improve:  document.querySelector('[name="improve"]').value           || '',
+    contact:  document.querySelector('[name="contact"]').value           || '',
+  };
+
+  if (WEBHOOK && WEBHOOK !== 'YOUR_APPS_SCRIPT_WEB_APP_URL') {
+    fetch(WEBHOOK, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(() => {}); // don't block UI on network error
+  }
+
+  setTimeout(() => {
+    document.getElementById('feedback-form').style.display = 'none';
+    document.querySelector('.header').style.display = 'none';
+    document.querySelector('.progress-bar-track').style.display = 'none';
+    document.getElementById('thankyou').style.display = 'block';
+  }, 600);
+});
+</script>
+
+</body>
+</html>
